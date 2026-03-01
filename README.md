@@ -4,50 +4,63 @@ Aplicación ligera en C++ para mostrar una mirilla (*crosshair overlay*) en pant
 
 ## ✨ Características
 
-- Ventana transparente y *click-through* (no bloquea clics del juego).
-- Overlay siempre visible por encima de otras ventanas (*always on top*).
-- Renderizado de mirilla centrada con Direct2D.
-- Icono en bandeja del sistema con menú contextual.
-- Control de visibilidad del crosshair en tiempo de ejecución.
-- Opciones CLI para ajustar tamaño, grosor, separación y color.
-- Acciones integradas para Fortnite (resolución, lanzamiento y cierre global).
+### How to quit the app?
+Windows system tray (or notification area) -> Select CrosshairOverlay -> Exit
 
-## 🧱 Tecnologías usadas
+---
 
-- **Win32 API** (`windows.h`) para ciclo de vida de ventana y sistema.
-- **Direct2D** (`d2d1`) para dibujado de la mirilla.
-- **DWM** (`dwmapi`) para extensión de marco transparente.
-- **Shell API** (`shell32`) para icono y notificaciones de bandeja.
-- **Tool Help API** (`tlhelp32`) para enumeración y cierre de procesos.
+## Project overview
 
-## 📁 Estructura del repositorio
+This repository contains a minimal Win32 crosshair overlay implemented in C++.
 
-- `overlay.cpp`: implementación principal de la aplicación.
-- `CMakeLists.txt`: configuración de compilación.
-- `README.md`: documentación del proyecto.
+### Current implementation
 
-## 🎮 Integración Fortnite (mismo ejecutable)
+- Transparent, click-through fullscreen overlay window.
+- Always-on-top rendering layer.
+- Crosshair drawn at screen center using Direct2D.
+- System tray icon with a context menu option to exit.
+- Unicode build configuration through CMake.
 
-Desde el menú de bandeja se puede:
+### Technical details
 
-1. **Activar modo Fortnite** (`1600x1200 @ 100Hz`, configurable en código).
-2. **Restaurar resolución original** (`2560x1440 @ 100Hz`, configurable en código).
-3. **Abrir Fortnite** mediante protocolo de Epic Launcher.
-4. **Mostrar/Ocultar crosshair**.
-5. **Cerrar todo** (cierra Fortnite y restaura resolución original).
+- Main source file: `overlay.cpp`.
+- Build system: `CMakeLists.txt`.
+- APIs/libraries in use:
+  - Win32 API (`windows.h`, window lifecycle, tray integration)
+  - Direct2D (`d2d1`) for drawing
+  - DWM (`dwmapi`) for transparent frame extension
+  - Shell API (`shell32`) for tray icon operations
 
-## ⌨️ Opciones de línea de comandos
+### Known limitations in current codebase
 
-| Opción | Descripción |
-|---|---|
-| `--size <valor>` | Longitud de los brazos de la mirilla. |
-| `--thickness <valor>` | Grosor de la línea. |
-| `--gap <valor>` | Separación central de la mirilla. |
-| `--color R,G,B` | Color RGB (0-255), por ejemplo `0,255,0`. |
-| `--toggle` | Alterna visibilidad en una instancia ya abierta. |
-| `--quit` | Cierra de forma remota una instancia ya abierta. |
+- No profile system or settings persistence.
+- No multi-monitor targeting logic beyond primary screen dimensions.
+- Fortnite integration uses protocol launch + process-name termination and assumes standard process naming.
 
-### Ejemplo
+
+
+### Fortnite integration (single executable)
+
+The same executable now includes tray actions for:
+
+- Switching to Fortnite resolution mode (`1600x1200 @ 100Hz` by default).
+- Restoring original resolution (`2560x1440 @ 100Hz` by default).
+- Launching Fortnite through Epic protocol URI.
+- Showing/hiding the built-in crosshair overlay.
+- Closing everything from one menu action (kills Fortnite and restores original resolution).
+
+### Command-line options
+
+The executable supports basic arguments for external automation:
+
+- `--size <value>`: crosshair arm length.
+- `--thickness <value>`: line thickness.
+- `--gap <value>`: center gap.
+- `--color R,G,B`: crosshair color in RGB (0-255).
+- `--toggle`: toggles visibility on a running instance.
+- `--quit`: requests graceful shutdown of a running instance.
+
+Example:
 
 ```powershell
 crosshair.exe --size 12 --thickness 2 --gap 3 --color 0,255,0
