@@ -1,14 +1,8 @@
 # Crosshair Overlay
-Tired of a simple overlay taking over 100MB of RAM for no reason? </br> A very light, fast and portable crosshair overlay built with C++. </br> The current version is as minimal as it can get
 
-### Crosshair Customization
-UI was included in the ```gui-incluided``` branch </br>
-Windows system tray (or notification area) -> Select CrosshairOverlay -> Settings
+Aplicación ligera en C++ para mostrar una mirilla (*crosshair overlay*) en pantalla completa sobre Windows, con integración opcional para flujo de Fortnite desde el mismo ejecutable.
 
-### CPU/RAM usage
-- Executable Size: **13.5KB**.
-- CPU Usage: **0%** (YES really)
-- RAM Usage: **9.1 MB**
+## ✨ Características
 
 ### How to quit the app?
 Windows system tray (or notification area) -> Select CrosshairOverlay -> Exit
@@ -72,11 +66,17 @@ Example:
 crosshair.exe --size 12 --thickness 2 --gap 3 --color 0,255,0
 ```
 
-### Build
+## 🛠️ Compilación
 
 ```bash
 cmake -S . -B build
 cmake --build build
 ```
 
-> Note: This project targets Windows APIs and requires a Windows-compatible toolchain/SDK.
+> Este proyecto está orientado a Windows y requiere toolchain/SDK compatible con APIs Win32.
+
+## ⚠️ Limitaciones actuales
+
+- No existe persistencia de configuración (perfiles/archivo de settings).
+- El soporte multimonitor es básico (usa dimensiones del monitor principal).
+- La integración de Fortnite depende de nombre de proceso y protocolo estándar de Epic.
